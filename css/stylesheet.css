@@ -38,9 +38,10 @@ div {
 .main-child {
     height: 95%;
     width: 95%;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
+    gap:1%;
     flex-wrap: wrap;
 }
 .snippet-post {
@@ -65,9 +66,18 @@ div {
     width: 90%;
     justify-content:flex-start;
     align-items: flex-start;
-    white-space: pre;
+    /* white-space: pre; */
 }
 .snippet-footer {
     height: 20%;
     width: 100%;
+}
+pre, code {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+}
+pre code.hljs {
+    overflow-x:hidden !important;
 }
