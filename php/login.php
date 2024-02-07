@@ -80,6 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {//check if the form has been submitte
                     if (password_verify($password, $row["passwordHash"])) {//check if password matches encrypted password
                         session_start();//start session
                         $_SESSION["username"] = $username;//set session username
+                        $_SESSION["id"] = $row["user_id"];//set session id
                         header("Location: ../index.php");//go to main page
                         $conn->close();
                         exit();

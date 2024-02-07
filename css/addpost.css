@@ -1,0 +1,31 @@
+.main form {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.main form input[type=text] {
+    height: 10%;
+    width: 70%;
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin: 2%;
+}
+.main form textarea {
+    height: 25%;
+    width: 70%;
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin: 0.2%;
+    resize:none;
+
+}
+.main form input[type=submit] {
+    height: 10%;
+    width: 70%;
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin: 2%;
+}
