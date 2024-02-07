@@ -7,11 +7,11 @@
         $password = "";
         $dbname = "snippetmanager";
     $conn = new mysqli($servername, $username, $password, $dbname);
-        foreach ($conn->query('SELECT * FROM snippets ORDER BY snippet_score DESC') as $row) {
+        foreach ($conn->query('SELECT snippets.*, users.username FROM snippets JOIN users ON snippets.author_id=users.user_id ORDER BY snippet_score DESC') as $row) {
             echo "<div class='snippet-post' data-info='" . json_encode($row) . "'>";
             echo "<div class='snippet-header'>";
             echo "<span class='snippet-title'>" . $row['snippet_title'] . "</span>";
-            echo "<span class='snippet-author'>" . $row['author_id'] . "</span>";
+            echo "<span class='snippet-author'>" . $row['username'] . "</span>";
             echo "</div>";
             echo "<div class='snippet-body'>";
             echo "<div class='snippet-code'><pre><code>" . $row['snippet_code'] . "</code></pre></div>";
@@ -57,25 +57,7 @@
         </div>
         <div class="main">
             <div class="main-child"> <!-- this is where the snippets will be displayed -->
-            <?php displayPosts(); ?>
-            <!-- example of a code snippet -->
-                <!-- <div class="snippet-post">
-                    <div class="snippet-header">
-                        <span class="snippet-title">title</span>
-                        <span class="snippet-author">author</span>
-                    </div>
-                    <div class="snippet-body">
-                        <div class="snippet-code"><pre><code>
-def test():
-    print("aaa")
-                        </code></pre></div>
-                    </div>
-                    <div class="snippet-footer">
-                        <button class="up-vote">arrow up</button>
-                        <button class="comments">comm</button>
-                        <button class="down-vote">arrow down</button>
-                    </div>
-                </div> -->
+                <?php displayPosts(); ?>    
             </div>
         </div>
     </div>
