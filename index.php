@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +17,14 @@
                 <input type="text" name="search" id="search-bar" placeholder="Search...">
             </div>
             <!-- profile -->
+            <div class="profile-bar">
+                <button class="add-snippet">+</button>
+                <button class="login"><a href="/snippetmanager/php/login.php">login</a></button>
+                <button class="user-settings">settings</button>
+            </div>
             <div class="profile">
                     <button class="profile-button">Profile</button>
+                    <span class="karma">karma</span>
             </div>
         </div>
         <div class="main">
