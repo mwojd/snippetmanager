@@ -4,7 +4,6 @@ Its purpose its to make sharing code easier
 
 ## TODO
 * proper ui and css
-* comment system - least important aspect
 * php
 * like system
 

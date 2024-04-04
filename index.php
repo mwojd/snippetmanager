@@ -6,9 +6,10 @@
         $username = "root";
         $password = "";
         $dbname = "snippetmanager";
-    $conn = new mysqli($servername, $username, $password, $dbname);
+        $conn = new mysqli($servername, $username, $password, $dbname);
         foreach ($conn->query('SELECT snippets.*, users.username FROM snippets JOIN users ON snippets.author_id=users.user_id ORDER BY snippet_score DESC') as $row) {
-            echo "<div class='snippet-post' data-info='" . json_encode($row) . "'>";
+            $id = $row["snippet_id"];
+            echo "<div class='snippet-post' data-id='$id' style='width: 400px;'>";
             echo "<div class='snippet-header'>";
             echo "<span class='snippet-title'>" . $row['snippet_title'] . "</span>";
             echo "<span class='snippet-author'>" . $row['username'] . "</span>";

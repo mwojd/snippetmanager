@@ -12,9 +12,9 @@ if ($conn->connect_error)
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['title']) && isset($_POST['code']) && isset($_POST['description'])) {
-        $title = filter_input(INPUT_POST, 'title');
-        $code = filter_input(INPUT_POST, 'code');
-        $description = filter_input(INPUT_POST, 'description');
+        $title = $_POST['title'];
+        $code = $_POST['code'];
+        $description = $_POST['description'];
         $userid = $_SESSION['id'];
 
         $sql = "INSERT INTO snippets (snippet_title, snippet_code, description, author_id) VALUES (?, ?, ?, ?)";
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             echo "Post added successfully";
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: $sql <br> $conn->error";
         }
     }
 }
