@@ -19,7 +19,6 @@
             echo "</div>";
             echo "<div class='snippet-footer'>";
             echo "<button class='up-vote'>arrow up</button>";
-            echo "<button class='comments'>comm</button>";
             echo "<button class='down-vote'>arrow down</button>";
             echo "</div>";
             echo "</div>";
@@ -48,12 +47,31 @@
             <!-- profile -->
             <div class="profile-bar">
                 <button class="add-snippet"><a href="/snippetmanager/php/addPost.php">+</a></button>
-                <button class="login"><a href="/snippetmanager/php/login.php">login</a></button>
-                <button class="user-settings">settings</button>
+                <?php 
+                    if (!isset($_SESSION['id'])) { 
+                        echo "<button class='login'><a href='/snippetmanager/php/login.php'>login</a></button>";
+                    } else {
+                        echo "<button class='login'>" . $_SESSION['username'] . "</button>";
+                    }
+                ?>
             </div>
             <div class="profile">
-                    <button class="profile-button">Profile</button>
-                    <span class="karma">karma</span>
+                    <?php
+                        $servername = "localhost";
+                        $username = "root";
+                        $password = "";
+                        $dbname = "snippetmanager";
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+                        $stmt = $conn->prepare('SELECT userkarma FROM users WHERE user_id=?');
+                        $stmt->bind_param("i", $_SESSION['id']);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $row = $result->fetch_assoc();
+
+                        if (isset($_SESSION['id'])) {
+                            echo "<span class='karma'>" . $row['userkarma'] . " karma</span>";
+                        }
+                    ?>
             </div>
         </div>
         <div class="main">
@@ -65,5 +83,7 @@
     <script src="./resources/highlightjs/highlight.js"></script>
     <script>hljs.highlightAll();</script>
     <script src="./js/search.js"></script>
+    <script src="./js/likeSystem.js"></script>
+
 </body>
 </html>
