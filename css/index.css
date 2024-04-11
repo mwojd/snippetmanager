@@ -48,6 +48,7 @@ button  {all:unset}
     align-items: flex-start;
     gap:1%;
     flex-wrap: wrap;
+    overflow-y: scroll;
 }
 .main div {
     border: #4EA699 1px solid;

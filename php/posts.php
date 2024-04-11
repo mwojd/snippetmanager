@@ -17,7 +17,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$stmt = $conn->prepare('SELECT snippets.*, users.username FROM snippets JOIN users ON snippets.author_id=users.user_id WHERE snippets.snippet_code LIKE ? OR snippets.author_id LIKE ? OR snippets.snippet_title LIKE ? OR snippets.description LIKE ? ORDER BY snippet_score DESC');
+$stmt = $conn->prepare('SELECT snippets.*, users.username
+FROM snippets
+JOIN users ON snippets.author_id = users.user_id
+WHERE LOWER(snippets.snippet_code) LIKE ?
+    OR LOWER(users.username) LIKE ?
+    OR LOWER(snippets.snippet_title) LIKE ?
+    OR LOWER(snippets.description) LIKE ?
+ORDER BY snippet_score DESC');
 $queryParam = "%" . $query . "%";
 $stmt->bind_param("ssss", $queryParam, $queryParam, $queryParam, $queryParam);
 $stmt->execute();
