@@ -1,5 +1,3 @@
-
-//TODO: Add search functionality to the site
 document.querySelector("#search-bar").addEventListener("keyup", (e) => {
     const search = e.target.value.toLowerCase();
 

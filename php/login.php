@@ -10,78 +10,82 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST") {//check if the form has been submitted
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['action'])) {
-        $action = filter_input(INPUT_POST, 'action');//get user action
+        $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
 
-        if ($action === 'register') {//if user wants to register
-            $username = filter_input(INPUT_POST, 'username');//get username
+        if ($action === 'register') {
+            $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
-            //validate username
-            $pattern = "/^[a-zA-Z0-9_\-\.]+$/";//regex username pattern
+            // Validate username
+            $pattern = "/^[a-zA-Z0-9_\-\.]+$/";
             if (!preg_match($pattern, $username)) {
                 echo "Invalid username format. Please use alphanumeric characters, underscore, hyphen, and period. Maximum length is 15 characters.";
                 return;
             }
 
-            //username must be less than 15 characters long
+            // Username must be less than 15 characters long
             if (strlen($username) > 15) {
                 echo "Username must be less than 15 characters long.";
                 return;
             }
 
-            $password = filter_input(INPUT_POST, 'password');//get password
-            //validate password
-            $pattern="/^a-zA-Z0-9_!@#\$%&\*\^\(\)/";//regex password pattern
+            // Validate password
+            $pattern = "/^[a-zA-Z0-9_!@#\$%&\*\^\(\)]+$/";
             if (!preg_match($pattern, $password)) {
                 echo "Invalid password format. Please use alphanumeric characters, !, @, #, $, %, &, *, ^";
                 return;
             }
 
-            //cgheck if username already exists
+            // Check if username already exists
             $sql = "SELECT * FROM users WHERE username = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $username);
             $stmt->execute();
             $result = $stmt->get_result();
-            
+
             if ($result->num_rows > 0) {
                 echo "Username already exists. Please choose a different one.";
                 exit();
             }
 
-            //encrypt password
+            // Encrypt password
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-            //insert user into database
+
+            // Insert user into database
             $sql = "INSERT INTO users (username, passwordHash) VALUES (?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ss", $username, $passwordHash);
-            //if user was successfully inserted into database
+
+            // If user was successfully inserted into database
             if ($stmt->execute()) {
                 echo "New record created successfully";
                 header("Location: ../index.php");
                 $conn->close();
                 exit();
-            } else {//if user was not successfully inserted into database
+            } else {
                 echo "Error: " . $stmt->error;
             }
-        } elseif ($action === 'login') {//if user wants to login
-            $username = filter_input(INPUT_POST, 'username');//get username
-            $password = filter_input(INPUT_POST, 'password');//get password
+        } elseif ($action === 'login') {
+            $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+            $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
-            //check if username exists
+            // Check if username exists
             $sql = "SELECT * FROM users WHERE username = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $username);
+
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
                 if ($result->num_rows === 1) {
                     $row = $result->fetch_assoc();
-                    if (password_verify($password, $row["passwordHash"])) {//check if password matches encrypted password
-                        session_start();//start session
-                        $_SESSION["username"] = $username;//set session username
-                        $_SESSION["id"] = $row["user_id"];//set session id
-                        header("Location: ../index.php");//go to main page
+                    if (password_verify($password, $row["passwordHash"])) {
+                        session_start();
+                        $_SESSION["username"] = $username;
+                        $_SESSION["id"] = $row["user_id"];
+                        header("Location: ../index.php");
                         $conn->close();
                         exit();
                     } else {
@@ -96,7 +100,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {//check if the form has been submitte
         }
     }
 }
+
 $conn->close();
+
+if (isset($_SESSION['id'])) {
+    header("Location: localhost/snippetmanager/index.php");
+    die();
+}
 ?>
 
 <!DOCTYPE html>

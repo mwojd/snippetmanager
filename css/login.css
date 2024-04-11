@@ -1,3 +1,8 @@
+a {
+    color: #4EA699;
+    text-decoration: none;
+}
+
 form {
     height: 90%;
     width: 95%;
@@ -11,6 +16,13 @@ form input {
     width: 50%;
     margin: 5px;
     padding: 5px;
-    border: 1px solid #000;
+    border: 1px solid #4EA699;
     border-radius: 5px;
+    background-color: #4b5266;
+}
+form input[type=submit] {
+    color: #4EA699;
+}
+form input::placeholder {
+    color: #4EA699;
 }

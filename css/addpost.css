@@ -1,3 +1,7 @@
+.main {
+    height: 80%;
+    width: 100%;
+}
 .main form {
     height: 100%;
     width: 100%;
@@ -6,17 +10,22 @@
     align-items: center;
     flex-direction: column;
 }
+.main form input, .main form textarea {
+    border: solid 1px #4EA699;
+    background-color: #4b5266;
+}
+.main form input::placeholder, .main form textarea::placeholder {
+    color: #4EA699;
+}
 .main form input[type=text] {
     height: 10%;
     width: 70%;
-    border: 1px solid #000;
     border-radius: 5px;
     margin: 2%;
 }
 .main form textarea {
     height: 25%;
     width: 70%;
-    border: 1px solid #000;
     border-radius: 5px;
     margin: 0.2%;
     resize:none;
@@ -25,7 +34,8 @@
 .main form input[type=submit] {
     height: 10%;
     width: 70%;
-    border: 1px solid #000;
+    border: 1px solid #4EA699;
     border-radius: 5px;
     margin: 2%;
+    color: #4EA699;
 }
